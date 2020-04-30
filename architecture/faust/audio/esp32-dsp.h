@@ -31,6 +31,10 @@
 #include "freertos/task.h"
 #include "driver/i2s.h"
 
+#ifdef CONFIG_ESP_LYRAT_V4_3_BOARD
+#include "board.h"
+#endif
+
 #include "faust/audio/audio.h"
 #include "faust/dsp/dsp.h"
 
@@ -167,6 +171,8 @@ class esp32audio : public audio {
                 .data_out_num = 25,
                 .data_in_num = 35
             };
+        #elif CONFIG_ESP_LYRAT_V4_3_BOARD
+            get_i2s_pins((i2s_port_t)0, &pin_config);
         #else // Default
             pin_config = {
                 .bck_io_num = 33,
@@ -247,7 +253,7 @@ class esp32audio : public audio {
         {
             if (!fRunning) {
                 fRunning = true;
-                return (xTaskCreatePinnedToCore(audioTaskHandler, "Faust DSP Task", 4096, (void*)this, 24, &fHandle, 0) == pdPASS);
+                return (xTaskCreate(audioTaskHandler, "Faust DSP Task", 4096, (void*)this, 24, &fHandle) == pdPASS);
             } else {
                 return true;
             }

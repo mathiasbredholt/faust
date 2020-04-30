@@ -61,6 +61,9 @@ class AudioFaust
     
         void setParamValue(const std::string&, float);
         float getParamValue(const std::string& path);
+
+        void keyOn(uint8_t channel, uint8_t key, uint8_t vel);
+        void keyOff(uint8_t channel, uint8_t key, uint8_t vel);
 };
 
 #endif

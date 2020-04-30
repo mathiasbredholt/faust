@@ -143,6 +143,16 @@ float AudioFaust::getParamValue(const std::string& path)
     return fUI->getParamValue(path);
 }
 
+void AudioFaust::keyOn(uint8_t channel, uint8_t key, uint8_t vel)
+{
+    fMIDIHandler->handleKeyOn(0, channel, key, vel);
+}
+
+void AudioFaust::keyOff(uint8_t channel, uint8_t key, uint8_t vel)
+{
+    fMIDIHandler->handleKeyOff(0, channel, key, vel);
+}
+
 // Entry point
 #ifdef HAS_MAIN
 extern "C" void app_main()
